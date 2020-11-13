@@ -1,6 +1,7 @@
 import React from 'react';
 import { View, StyleSheet } from 'react-native';
 import {
+    useTheme,
     Avatar,
     Title,
     Caption,
@@ -15,15 +16,15 @@ import {
     DrawerItem
 } from '@react-navigation/drawer';
 
-import Icon from 'react-native-vector-icons/MaterialCommunityIcons'
+import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
+
+import{ AuthContext } from '../components/context';
 
 export function DrawerContent(props) {
 
-    const [isDarkTheme, setIsDarkTheme] = React.useState(false);
+    const paperTheme = useTheme();
 
-    const toggleTheme = () => {
-        setIsDarkTheme(!isDarkTheme);
-    }
+    const { signOut, toggleTheme } = React.useContext(AuthContext);
 
     return(
         <View style={{flex:1}}>
@@ -33,13 +34,13 @@ export function DrawerContent(props) {
                         <View style={{flexDirection:'row',marginTop: 15}}>
                             <Avatar.Image 
                                 source={{
-                                    uri: 'https://scontent-maa2-1.xx.fbcdn.net/v/t1.0-9/52944323_2091549364214714_3093923968491454464_n.jpg?_nc_cat=100&_nc_sid=7aed08&_nc_ohc=Pn8ws2O3PBQAX-AocWT&_nc_ht=scontent-maa2-1.xx&oh=862e49d69b74e8bd16f3b4166d4eda1e&oe=5E9B4BFE'
+                                    uri: 'https://api.adorable.io/avatars/50/abott@adorable.png'
                                 }}
                                 size={50}
                             />
                             <View style={{marginLeft:15, flexDirection:'column'}}>
-                                <Title style={styles.title}>Pradip Debnath</Title>
-                                <Caption style={styles.caption}>@itzpradip</Caption>
+                                <Title style={styles.title}>John Doe</Title>
+                                <Caption style={styles.caption}>@j_doe</Caption>
                             </View>
                         </View>
 
@@ -98,7 +99,7 @@ export function DrawerContent(props) {
                                 />
                             )}
                             label="Settings"
-                            onPress={() => {props.navigation.navigate('SettingScreen')}}
+                            onPress={() => {props.navigation.navigate('SettingsScreen')}}
                         />
                         <DrawerItem 
                             icon={({color, size}) => (
@@ -117,7 +118,7 @@ export function DrawerContent(props) {
                             <View style={styles.preference}>
                                 <Text>Dark Theme</Text>
                                 <View pointerEvents="none">
-                                    <Switch value={isDarkTheme}/>
+                                    <Switch value={paperTheme.dark}/>
                                 </View>
                             </View>
                         </TouchableRipple>
@@ -134,7 +135,7 @@ export function DrawerContent(props) {
                         />
                     )}
                     label="Sign Out"
-                    onPress={() => {}}
+                    onPress={() => {signOut()}}
                 />
             </Drawer.Section>
         </View>
